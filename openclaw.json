@@ -1,0 +1,164 @@
+{
+    "meta":  {
+                 "lastTouchedVersion":  "0.1.7",
+                 "lastTouchedAt":  "2026-03-07T06:43:22.177Z"
+             },
+    "wizard":  {
+                   "lastRunAt":  "2026-02-28T11:07:32.592Z",
+                   "lastRunVersion":  "0.1.7-fix5",
+                   "lastRunCommand":  "doctor",
+                   "lastRunMode":  "local"
+               },
+    "models":  {
+                   "providers":  {
+                                     "zhipu":  {
+                                                   "baseUrl":  "https://open.bigmodel.cn/api/paas/v4",
+                                                   "apiKey":  "apiKey",
+                                                   "api":  "openai-completions",
+                                                   "models":  [
+                                                                  {
+                                                                      "id":  "glm-4.7-flash",
+                                                                      "name":  "GLM-4.7-Flash",
+                                                                      "reasoning":  true,
+                                                                      "input":  [
+                                                                                    "text",
+                                                                                    "image"
+                                                                                ],
+                                                                      "cost":  {
+                                                                                   "input":  0,
+                                                                                   "output":  0,
+                                                                                   "cacheRead":  0,
+                                                                                   "cacheWrite":  0
+                                                                               },
+                                                                      "contextWindow":  128000,
+                                                                      "maxTokens":  4096
+                                                                  }
+                                                              ]
+                                               }
+                                 }
+               },
+    "agents":  {
+                   "list":  [
+                                {
+                                    "id":  "main",
+                                    "default":  true,
+                                    "name":  "General Agent",
+                                    "workspace":  "E:\\open\\openclaw\\.openclaw\\workspace"
+                                },
+                                {
+                                    "id":  "feishu-agent",
+                                    "name":  "Feishu Assistant",
+                                    "workspace":  "E:\\open\\openclaw\\.openclaw\\workspace-feishu"
+                                },
+                                {
+                                    "id":  "dingtalk-agent",
+                                    "name":  "DingTalk Assistant",
+                                    "workspace":  "E:\\open\\openclaw\\.openclaw\\workspace-dingtalk"
+                                }
+                            ],
+                   "defaults":  {
+                                    "model":  {
+                                                  "primary":  "zhipu/glm-4.7-flash"
+                                              },
+                                    "workspace":  "E:\\open\\openclaw\\.openclaw\\workspace",
+                                    "maxConcurrent":  1,
+                                    "subagents":  {
+                                                      "maxConcurrent":  1
+                                                  },
+                                    "memorySearch":  {
+                                                         "enabled":  true,
+                                                         "provider":  "openai",
+                                                         "model":  "embedding-3",
+                                                         "extraPaths":  [
+                                                                            "knowledge"
+                                                                        ],
+                                                         "remote":  {
+                                                                        "baseUrl":  "https://open.bigmodel.cn/api/paas/v4",
+                                                                        "apiKey":  "apiKey",
+                                                                        "batch":  {
+                                                                                      "enabled":  false
+                                                                                  }
+                                                                    },
+                                                         "sync":  {
+                                                                      "watch":  true,
+                                                                      "onSessionStart":  true,
+                                                                      "onSearch":  true
+                                                                  },
+                                                         "query":  {
+                                                                       "maxResults":  10,
+                                                                       "hybrid":  {
+                                                                                      "enabled":  true,
+                                                                                      "vectorWeight":  0.7,
+                                                                                      "textWeight":  0.3
+                                                                                  },
+                                                                       "minScore":  0.2
+                                                                   }
+                                                     }
+                                }
+               },
+    "bindings":  [
+                     {
+                         "agentId":  "feishu-agent",
+                         "match":  {
+                                       "channel":  "feishu"
+                                   }
+                     },
+                     {
+                         "agentId":  "dingtalk-agent",
+                         "match":  {
+                                       "channel":  "dingtalk"
+                                   }
+                     }
+                 ],
+    "commands":  {
+                     "native":  "auto",
+                     "nativeSkills":  "auto"
+                 },
+    "channels":  {
+                     "dingtalk":  {
+                                      "clientId":  "clientId",
+                                      "clientSecret":  "clientSecret",
+                                      "enabled":  true,
+                                      "dmPolicy":  "open",
+                                      "groupPolicy":  "open",
+                                      "enableAICard":  false
+                                  },
+                     "feishu":  {
+                                    "appId": "appId",
+                                    "appSecret": "appSecret",
+                                    "enabled":  true,
+                                    "dmPolicy":  "open",
+                                    "groupPolicy":  "open"
+                                }
+                 },
+    "gateway":  {
+                    "mode":  "local",
+                    "auth":  {
+                                 "mode":  "token",
+                                 "token":  "8cea32183f6ccae92f48060e32b6ae0728a55689bec3a89f"
+                             }
+                },
+    "plugins":  {
+                    "load":  {
+                                 "paths":  [
+                                               "extensions\\dingtalk"
+                                           ]
+                             },
+                    "entries":  {
+                                    "dingtalk":  {
+                                                     "enabled":  true
+                                                 },
+                                    "feishu":  {
+                                                   "enabled":  true
+                                               }
+                                }
+                },
+    "messages":  {
+                     "tts":  {
+                                 "auto":  "off",
+                                 "edge":  {
+                                              "enabled":  false
+                                          }
+                             }
+                 }
+}
